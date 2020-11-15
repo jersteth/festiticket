@@ -15,11 +15,7 @@ $(document).ready(function() {
       xcur.methods.decimals().call().then(function(decimals) {
           xcurDecimals = decimals;
           console.log("XCUR uses "+decimals+" decimals");
-          myAccount = web3.eth.getAccounts().then(function(accounts) {
-            myAccount=accounts[0];
-            console.log("My account: "+myAccount);
-            getData();
-          });
+          fetchAccountAndData();
         });
     });
     $("#buy_button").click(buy);
@@ -27,9 +23,17 @@ $(document).ready(function() {
     $("#offer_button").click(offer);
     $("#buy_offered_button").click(buy_offered);
     $("#buy_offered_button_for").click(buy_offered_for);
-
+    window.ethereum.on('accountsChanged', function (accounts) {
+      fetchAccountAndData();
+    })
 });
-
+function fetchAccountAndData() {
+  myAccount = web3.eth.getAccounts().then(function(accounts) {
+    myAccount=accounts[0];
+    console.log("My account: "+myAccount);
+    getData();
+  });
+}
 function prettyBalance(arg) {
   return (parseInt(arg) /  (10**xcurDecimals) ).toFixed(xcurDecimals) + " XCUR";
 }
@@ -63,11 +67,10 @@ async function getData() {
     console.log("Tickets sold:" + JSON.stringify(ticketIds));
     $("#ticketCount").text(ticketIds.length);
 
-    $("#ticketdetails").empty();
+    $("#ticketInfo").empty();
     $("#ticketInfo").append(function(){return '<div id="ticketdetails"/>'});
 
-    $("#forsaleinfo").empty();
-    $("#forsale").empty();
+    $("#resaleTicketInfo").empty();
     $("#resaleTicketInfo").append(function(){ return '<div id="forsaleinfo"/>'});
     ticketIds.forEach(function(ticketId) {
       ticket.methods.ownerOf(ticketId).call().then(function(owner) {
@@ -78,7 +81,7 @@ async function getData() {
         shop.methods.getLastSellPrice(ticketId).call().then(function(sellPrice) {
           t=t+(". Last sold for "+prettyBalance(sellPrice));
           console.log(t);
-          $("#forsaleinfo").append(function(){ return '<div id="forsale">'+t+'</div>'});
+          $("#forsaleinfo").append(function(){ return '<div>'+t+'</div>'});
 
         });
       });
@@ -87,15 +90,14 @@ async function getData() {
 
   ticket.methods.balanceOf(myAccount).call().then(function(amount) {
       console.log("Account owns "+amount+" tickets");
-      $("#yourticketinfo").empty();
-      $("#yourticket").empty();
+      $("#yourtickets").empty();
       $("#yourtickets").append(function(){ return '<div id="yourticketinfo"/>'});
       if (amount==0) {
-        $("#yourticketinfo").append(function(){ return '<div id="yourticket">No tickets</div>'});
+        $("#yourticketinfo").append(function(){ return '<div>No tickets</div>'});
       } else {
         for (i=0; i< amount; i++) {
           ticket.methods.tokenOfOwnerByIndex(myAccount,i).call().then(function(ticketId) {
-            $("#yourticketinfo").append(function(){ return '<div id="yourticket">Ticket '+ticketId+'</div>'});
+            $("#yourticketinfo").append(function(){ return '<div>Ticket '+ticketId+'</div>'});
           });
         }
       }
