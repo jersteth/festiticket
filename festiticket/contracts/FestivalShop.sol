@@ -27,9 +27,7 @@ contract FestivalShop {
     }
 
     function buyTicket() public returns (uint256) {
-        uint256 tokenId = buyTicketFor(msg.sender);
-        _tokenIds.push(tokenId);
-        return tokenId;
+        return buyTicketFor(msg.sender);
     }
 
     function buyTicketFor(address recipient) public returns (uint256) {
@@ -42,6 +40,7 @@ contract FestivalShop {
           lastSellPrice: _origTicketPrice,
           forSalePrice: 0
         });
+        _tokenIds.push(tokenId);
         return tokenId;
     }
 

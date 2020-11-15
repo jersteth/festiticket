@@ -23,8 +23,11 @@ $(document).ready(function() {
         });
     });
     $("#buy_button").click(buy);
+    $("#buy_button_for").click(buy_for);
     $("#offer_button").click(offer);
     $("#buy_offered_button").click(buy_offered);
+    $("#buy_offered_button_for").click(buy_offered_for);
+
 });
 
 function prettyBalance(arg) {
@@ -60,16 +63,22 @@ async function getData() {
     console.log("Tickets sold:" + JSON.stringify(ticketIds));
     $("#ticketCount").text(ticketIds.length);
 
-    $("#ticketInfo").text(ticketIds.join());
-    $("#forsaleinfo").remove();
-    $("#resaleTicketInfo").after(function(){ return '<div id="forsaleinfo"/>'});
+    $("#ticketdetails").empty();
+    $("#ticketInfo").append(function(){return '<div id="ticketdetails"/>'});
+
+    $("#forsaleinfo").empty();
+    $("#forsale").empty();
+    $("#resaleTicketInfo").append(function(){ return '<div id="forsaleinfo"/>'});
     ticketIds.forEach(function(ticketId) {
+      ticket.methods.ownerOf(ticketId).call().then(function(owner) {
+         $("#ticketdetails").append(function(){ return '<div>Ticket '+ticketId+' owned by '+owner+'</div>'});
+      });
       shop.methods.getForSalePrice(ticketId).call().then(function(price) {
         var t="Ticket "+ticketId+" "+(price>0?" is for sale for "+prettyBalance(price):" is not for resale");
         shop.methods.getLastSellPrice(ticketId).call().then(function(sellPrice) {
           t=t+(". Last sold for "+prettyBalance(sellPrice));
           console.log(t);
-          $("#forsaleinfo").after(function(){ return '<div id="#forsale">'+t+'</div>'});
+          $("#forsaleinfo").append(function(){ return '<div id="forsale">'+t+'</div>'});
 
         });
       });
@@ -78,14 +87,15 @@ async function getData() {
 
   ticket.methods.balanceOf(myAccount).call().then(function(amount) {
       console.log("Account owns "+amount+" tickets");
-      $("#yourticketinfo").remove();
-      $("#yourtickets").after(function(){ return '<div id="yourticketinfo"/>'});
+      $("#yourticketinfo").empty();
+      $("#yourticket").empty();
+      $("#yourtickets").append(function(){ return '<div id="yourticketinfo"/>'});
       if (amount==0) {
-        $("#yourticketinfo").after(function(){ return '<div>No tickets</div>'});
+        $("#yourticketinfo").append(function(){ return '<div id="yourticket">No tickets</div>'});
       } else {
         for (i=0; i< amount; i++) {
           ticket.methods.tokenOfOwnerByIndex(myAccount,i).call().then(function(ticketId) {
-            $("#yourticketinfo").after(function(){ return '<div id="#forsale">Ticket '+ticketId+'</div>'});
+            $("#yourticketinfo").append(function(){ return '<div id="yourticket">Ticket '+ticketId+'</div>'});
           });
         }
       }
@@ -96,9 +106,15 @@ async function getData() {
 function sleep (time) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
+async function buy_for() {
+  recipient = prompt("Address of person you are buying this ticket for:")
+  buy_common(recipient);
+}
 async function buy() {
-  console.log("Buying from account "+myAccount);
-
+  buy_common(myAccount);
+}
+async function buy_common(recipient) {
+  console.log("Buying from account "+myAccount+" for "+recipient);
   web3.eth.getBalance(myAccount, (err, balance) => {
     console.log("Eth balance: "+balance);
   });
@@ -121,7 +137,7 @@ async function buy() {
       from: myAccount,
       to: festivalShopAddress,
       gas: web3.utils.toHex(3000000),
-      data: shop.methods.buyTicket().encodeABI()
+      data: shop.methods.buyTicketFor(recipient).encodeABI()
     }
     web3.eth.sendTransaction(buyTx, async function(err, transactonHash) {
       console.log("Submitted transaction with hash: ", transactonHash);
@@ -174,8 +190,15 @@ async function offer() {
   });
 }
 
+async function buy_offered_for() {
+  recipient = prompt("Address of person you are buying this ticket for:")
+  buy_offered_common(recipient);
+}
 async function buy_offered() {
-  var tokenId = prompt("Token id to buy:");
+  buy_offered_common(myAccount);
+}
+async function buy_offered_common(recipient) {
+  var tokenId = prompt("Ticket id to buy:");
 
   shop.methods.getForSalePrice(tokenId).call().then(function(price) {
     if (price == 0) {
@@ -201,7 +224,7 @@ async function buy_offered() {
         from: myAccount,
         to: festivalShopAddress,
         gas: web3.utils.toHex(3000000),
-        data: shop.methods.buyOfferedTicket(tokenId).encodeABI()
+        data: shop.methods.buyOfferedTicketFor(tokenId,recipient).encodeABI()
       }
       web3.eth.sendTransaction(buyTx, async function(err, transactonHash) {
         console.log("Submitted transaction with hash: ", transactonHash);

@@ -23,16 +23,18 @@
       <div class="container">
         <h1 class="display-4">FestivalShop Dashboard</h1>
         <h2>Primary market</h2>
-        <div class="container">
-        Shop XCUR balance : <div id="shopBalance"/> XCUR</div>
+        <div class="lead">
+          Shop XCUR balance : <div id="shopBalance"/>
+        </div>
         Ticket price: <div id="ticketPrice"/> XCUR</div>
         Shop emitted tickets: <div id="ticketCount"/>
         </div>
-        Ids of sold tickets:
+        Tickets and their current owners:
         <div id="ticketInfo"></div>
         <p/>
-        <div class="container">
+        <div class="lead">
           <button type="button" id="buy_button" class="btn btn-primary">Buy new ticket</button>
+          <button type="button" id="buy_button_for" class="btn btn-primary">Buy new ticket for someone else</button>
         </div>
         <p/>
         <h2>Secondary (resale) market</h2>
@@ -40,22 +42,16 @@
         <div id="resaleTicketInfo"></div>
 
         <h2>Your account</h2>
-        <div class="container">
-        Current account: <div id="accxcur"/>XCUR</div>
-        You own: <div id="yourtickets"/>
-        </div>
+        <div class="lead">
+        Current account: <div id="accxcur"/></div>
+        <div class="lead">You own: <div id="yourtickets"/></div>
         <p/>
         <p/>
 
         <button type="button" id="offer_button" class="btn btn-primary">Offer ticket for resale</button>
         <button type="button" id="buy_offered_button" class="btn btn-primary">Buy an offered ticket</button>
+        <button type="button" id="buy_offered_button_for" class="btn btn-primary">Buy an offered ticket for someone else</button>
 
-      </div>
-    </div>
-    <div class="container">
-      </div>
-      <p/>
-      <div id="message">
       </div>
     </div>
 

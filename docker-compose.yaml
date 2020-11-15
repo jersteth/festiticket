@@ -31,11 +31,9 @@ services:
       - ganache-cli
     command: >
       sh -c "truffle compile &&
-             truffle migrate &&
+             truffle migrate --reset &&
              truffle test && ./make_abi.sh &&
              sleep 1000d"
-    ports:
-      - 3000:3000
     tty: true
     volumes:
       - ./festiticket-dapp:/dapp
