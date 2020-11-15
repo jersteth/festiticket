@@ -45,6 +45,7 @@ Also make sure you have chrome with the Metamask extension installed.
 
 ```
 git clone git@github.com/jeroenost/festiticket
+docker-compose build
 docker-compose up
 ```
 
