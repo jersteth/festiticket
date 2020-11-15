@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Festival ticket dashboard</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./web3.min.js"></script>
+    <script type="text/javascript" src="./main.js"></script>
+    <script type="text/javascript" src="./abiFestivalShop.js"></script>
+    <script type="text/javascript" src="./abiCurrencyToken.js"></script>
+    <script type="text/javascript" src="./abiFestiTicket.js"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  </head>
+  <body>
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h1 class="display-4">FestivalShop Dashboard</h1>
+        <h2>Primary market</h2>
+        <div class="container">
+        Shop XCUR balance : <div id="shopBalance"/> XCUR</div>
+        Ticket price: <div id="ticketPrice"/> XCUR</div>
+        Shop emitted tickets: <div id="ticketCount"/>
+        </div>
+        Ids of sold tickets:
+        <div id="ticketInfo"></div>
+        <p/>
+        <div class="container">
+          <button type="button" id="buy_button" class="btn btn-primary">Buy new ticket</button>
+        </div>
+        <p/>
+        <h2>Secondary (resale) market</h2>
+        <p>Tickets currently for sale:</p>
+        <div id="resaleTicketInfo"></div>
+
+        <h2>Your account</h2>
+        <div class="container">
+        Current account: <div id="accxcur"/>XCUR</div>
+        You own: <div id="yourtickets"/>
+        </div>
+        <p/>
+        <p/>
+
+        <button type="button" id="offer_button" class="btn btn-primary">Offer ticket for resale</button>
+        <button type="button" id="buy_offered_button" class="btn btn-primary">Buy an offered ticket</button>
+
+      </div>
+    </div>
+    <div class="container">
+      </div>
+      <p/>
+      <div id="message">
+      </div>
+    </div>
+
+
+  </body>
+</html>

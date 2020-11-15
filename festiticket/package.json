@@ -1,0 +1,22 @@
+{
+  "name": "festiticket",
+  "version": "1.0.0",
+  "description": "Festival ticket NFT demo",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nft",
+    "festival",
+    "ticket"
+  ],
+  "author": "Jeroen Ost",
+  "license": "ISC",
+  "dependencies": {
+    "@openzeppelin/contracts": "^3.2.0"
+  }
+}

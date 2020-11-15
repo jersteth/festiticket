@@ -1,0 +1,50 @@
+version: '3'
+services:
+  # ganachecli: simulated test rpc on dev environment
+  ganache-cli:
+    image: trufflesuite/ganache-cli:latest
+  #  build:
+  #    context: ./ganache
+    entrypoint:
+    - node
+    - /app/ganache-core.docker.cli.js
+    - --db=/ganache_data
+    - --networkId
+    - '4447'
+    - --hostname
+    - '0.0.0.0'
+    - -p 8545
+    - --quiet
+    - --account="0x908978d29dfbc715efceb30507a7d5b5ea4d59726696d8d4e4880208d298f566,100000000000000000000"
+    - --account="0xe492261448f171ca2b9d143acfb78870edbc0fe9b2878cdf48dfc07913c99da0,100000000000000000000"
+    - --account="0x1d1540130aa7c5d8f6c9379b637ccd3ddde0006affaafbe746cb8374746516a4,100000000000000000000"
+    ports:
+      - 8545:8545
+    volumes:
+      - ./ganache_data:/ganache_data
+# truffle
+  truffle:
+    container_name: truffle
+    build:
+      context: festiticket
+    depends_on:
+      - ganache-cli
+    command: >
+      sh -c "truffle compile &&
+             truffle migrate &&
+             truffle test && ./make_abi.sh &&
+             sleep 1000d"
+    ports:
+      - 3000:3000
+    tty: true
+    volumes:
+      - ./festiticket-dapp:/dapp
+  lighttpd:
+    image: sebp/lighttpd
+    volumes:
+      - .:/var/www/localhost/htdocs
+    ports:
+      - "8080:80"
+    tty: true
+    depends_on:
+      - truffle
