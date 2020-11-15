@@ -15,6 +15,9 @@ module.exports = async function(deployer, network, accounts) {
   // Grant the MINTER_ROLE to the shop.
   let minter_role = await festiTicketInstance.MINTER_ROLE();
   await festiTicketInstance.grantRole(minter_role, shopInstance.address);
+  // Only the shop can transfer tickets to prevent direct transfers without monetization.
+  let transfer_role = await festiTicketInstance.TRANSFER_ROLE();
+  await festiTicketInstance.grantRole(transfer_role, shopInstance.address);
 
   let address1 = web3.utils.toChecksumAddress(accounts[1])
   await currencyTokenInstance.transfer(address1,50000);
@@ -27,17 +30,4 @@ module.exports = async function(deployer, network, accounts) {
   let balance2 = parseInt(await currencyTokenInstance.balanceOf(address2));
   console.log("XCUR Balance account2 "+address2+" after deploy "+balance2);
 
-  // // Due to a bug in ganache-cli with --account, the third account provisioned does not seem to receive the initial ether. Workaround here from deployer acct.
-  // console.log("balance 0:"+ await web3.eth.getBalance(accounts[0]));
-  // console.log("balance 1:"+ await web3.eth.getBalance(accounts[1]));
-  // console.log("balance 2:"+ await web3.eth.getBalance(accounts[2]));
-  // if (await web3.eth.getBalance(accounts[0]) < web3.utils.toWei('10', 'ether')) {}
-  //   await web3.eth.sendTransaction({from: accounts[2], to:accounts[0], value: web3.utils.toWei('10', 'ether'), gasLimit: 21000, gasPrice: 20000000000});
-  // }
-  // if (await web3.eth.getBalance(accounts[2]) < web3.utils.toWei('10', 'ether')) {}
-  //   await web3.eth.sendTransaction({from: accounts[0], to:accounts[2], value: web3.utils.toWei('10', 'ether'), gasLimit: 21000, gasPrice: 20000000000});
-  // }
-  // console.log("balance 0:"+ await web3.eth.getBalance(accounts[0]));
-  // console.log("balance 1:"+ await web3.eth.getBalance(accounts[1]));
-  // console.log("balance 2:"+ await web3.eth.getBalance(accounts[2]));
 };

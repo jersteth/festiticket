@@ -4,14 +4,13 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/GSN/Context.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721Burnable.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721Pausable.sol";
 import "./CurrencyToken.sol";
 
-contract FestiTicket is ERC721Pausable, AccessControl {
+contract FestiTicket is ERC721, AccessControl {
     using Counters for Counters.Counter;
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
+    bytes32 public constant TRANSFER_ROLE = keccak256("TRANSFER_ROLE");
 
     Counters.Counter private _tokenIdTracker;
     uint32 private _maxAmount;
@@ -29,8 +28,14 @@ contract FestiTicket is ERC721Pausable, AccessControl {
       _setBaseURI("http://cryptofestival.com/ticket/");
     }
 
+    // Prevent NFT transfers unless sender has the TRANSFER_ROLE.
+    function _beforeTokenTransfer(address from, address to, uint256 tokenId) internal virtual override {
+        super._beforeTokenTransfer(from, to, tokenId);
+        require(hasRole(TRANSFER_ROLE, _msgSender()), "Tickets can only be transfered by whoever has the TRANSFER_ROLE");
+    }
+
     function mint(address to) public virtual returns (uint256){
-      require(hasRole(MINTER_ROLE, _msgSender()), "ERC721PresetMinterPauserAutoId: must have minter role to mint");
+      require(hasRole(MINTER_ROLE, _msgSender()), "Tickets can only be minted by whoever has the MINTER_ROLE");
       require(_tokenIdTracker.current() < _maxAmount);
       uint256 tokenId = _tokenIdTracker.current();
       _mint(to, tokenId);
