@@ -55,6 +55,7 @@ Find out the ip address of your docker host. Depending on the type of docker thi
 Next, configure Metamask. If your docker host is localhost/127.0.0.1:
 * Click on the Metamask icon in chrome to bring up Metamask
 * Click on Localhost 8545
+* If connection fails, click on the top right metamask icon, settings, networks, select 'Localhost 8545' and edit the field Chain Id to 4447.
 
 If your docker host is different from localhost/127.0.0.1:
 * Click on the currently selected network ("Ethereum mainnet") and then on "Custom RPC"
