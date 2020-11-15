@@ -1,4 +1,8 @@
 FestiTicket
+---
+Festival Tickets as NFT's, buyable with a currency token implementation.
+Secondary market where tickets can be resold for max 110% of previous price and where the 
+shop takes a 1% commission.
 
 Overview of implementation
 ----------
@@ -22,9 +26,13 @@ Limitations/Good to know:
 * Basic UI to demonstrate the functioning smart contracts. No layouting, ugly popups,...
 * Not many error conditions have been implemented in UI.
 * Fixed 3 accounts in Ganache to preventing reimporting in Metamask. See docker-compose.yaml to add more. 
-* abi's from truffle are copied to the dapp.
+* abi's from truffle are copied to the dapp in make_abi.sh at the end of truffle commands.
+* The URI's of the NFT's have not been used. In the ideal world, they point to a QR code 
+in which ticket Id and owner address are both stored. To validate entry at the festival
+there would be a proof of ownership of the owner address required. 
+    
 
-Folder structure
+Folder structure:
 * festiticket: truffle suite, smartcontract
 * festiticket-dapp: UI
 * ganache_data: state from ganache.
