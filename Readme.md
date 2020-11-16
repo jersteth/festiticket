@@ -1,7 +1,7 @@
 FestiTicket
 ---
 Festival Tickets as NFT's, buyable with a currency token implementation.
-Secondary market where tickets can be resold for max 110% of previous price and where the 
+Secondary market where tickets can be resold for max 110% of previous price and where the
 shop takes a 1% commission.
 
 Overview of implementation
@@ -16,21 +16,21 @@ All services run in docker containers.
 There are three Smart contracts, FestivalShop represents the shop. Then there is one for the currency token and one for the NFT token.
 * There is an ERC20 token called XCUR (2 decimals) which represents the currency token.
 * There is an ERC721 (NFT) token FestiTicket which represent festival tickets.
-* I use openzeppelin as the base layer for the tokens and Access Control. 
+* I use openzeppelin as the base layer for the tokens and Access Control.
 * FestivalTickets can only be sold by entities having the TRANSFER_ROLE, which is only the shop. This is to prevent circumventing the secondary market of FestivalShop.
 * The FestivalShop takes a 1% commission on a all resales.
 * Bought tickets can be offered for resale to the secondary market of the shop for a requested price.
-* When tickets are for sale they can be bought by anyone. 
+* When tickets are for sale they can be bought by anyone.
 
 Limitations/Good to know:
 * Basic UI to demonstrate the functioning smart contracts. No layouting, ugly popups,...
 * Not many error conditions have been implemented in UI.
-* Fixed 3 accounts in Ganache to preventing reimporting in Metamask. See docker-compose.yaml to add more. 
+* Fixed 3 accounts in Ganache to preventing reimporting in Metamask. See docker-compose.yaml to add more.
 * abi's from truffle are copied to the dapp in make_abi.sh at the end of truffle commands.
-* The URI's of the NFT's have not been used. In the ideal world, they point to a QR code 
+* The URI's of the NFT's have not been used. In the ideal world, they point to a QR code
 in which ticket Id and owner address are both stored. To validate entry at the festival
-there would be a proof of ownership of the owner address required. 
-    
+there would be a proof of ownership of the owner address required.
+
 
 Folder structure:
 * festiticket: truffle suite, smartcontract
@@ -45,6 +45,7 @@ Also make sure you have chrome with the Metamask extension installed.
 
 ```
 git clone git@github.com/jeroenost/festiticket
+cd festiticket
 docker-compose build
 docker-compose up
 ```
@@ -80,7 +81,7 @@ Using the FestiTicket Dashboard
 -----------
 Initially every account has some XCUR balance which can be used to by tickets.
 With the buttons you can buy a new ticket from the shop. This will require you to sign
-two Metamask transaction. 
+two Metamask transaction.
 
 When buying a ticket, the first one is to approve the spending of an XCUR balance and the
 second one is to approve the purchase.
@@ -88,7 +89,7 @@ second one is to approve the purchase.
 When offering a ticket for resale, you first otherise the Shop to transfer the NFT on your
 behalf, and then in the second transaction you request to offer it on the market.
 
-When buying 2nd hand, you first approve the spending of the appropriate amount of XCUR and 
+When buying 2nd hand, you first approve the spending of the appropriate amount of XCUR and
 then you do the actual purchase to the shop.
 
 You can buy for yourself or for another account holder with the buttons to buy for someone else.
@@ -96,4 +97,3 @@ You can buy for yourself or for another account holder with the buttons to buy f
 The dashboard shows the current state and ownership of tickets, balances of the shop and status of the current account (in Metamask).
 
 To switch to another user, click on Metamask top right icon and select the other account.
-  
