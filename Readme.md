@@ -65,9 +65,9 @@ If your docker host is different from localhost/127.0.0.1:
 * For chainId enter 4447
 * Click save
 
-For the test network we work with two three fixed accounts. Account0 is used for deployment by truffle and is not needed in Metamask.
+For the test network, we work with three fixed accounts. Account0 is used for deployment by truffle and is not needed in Metamask.
 Account1 and account2 will be imported. Use Private key 1 from Ganache-cli output log for account 1 and Private Key 2 for account 2
-Next, import two ethereum accounts in Metamask
+Next, import two ethereum accounts in Metamask:
 * Click on the top right icon in Metamask
 * In the Pulldown click on Import account
 * Paste the private key.
@@ -79,14 +79,14 @@ Connect Metamask will popup. Allow access to both accounts.
 
 Using the FestiTicket Dashboard
 -----------
-Initially every account has some XCUR balance which can be used to by tickets.
+Initially every account has some XCUR balance which can be used to buy tickets.
 With the buttons you can buy a new ticket from the shop. This will require you to sign
-two Metamask transaction.
+two Metamask transactions.
 
 When buying a ticket, the first one is to approve the spending of an XCUR balance and the
 second one is to approve the purchase.
 
-When offering a ticket for resale, you first otherise the Shop to transfer the NFT on your
+When offering a ticket for resale, you first authorise the Shop to transfer the NFT on your
 behalf, and then in the second transaction you request to offer it on the market.
 
 When buying 2nd hand, you first approve the spending of the appropriate amount of XCUR and
@@ -96,4 +96,4 @@ You can buy for yourself or for another account holder with the buttons to buy f
 
 The dashboard shows the current state and ownership of tickets, balances of the shop and status of the current account (in Metamask).
 
-To switch to another user, click on Metamask top right icon and select the other account.
+To switch to another user, click on Metamask top right icon and select the other account. This way you can purchase tickets from both accounts, or purchase tickets for another account. 
